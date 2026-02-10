@@ -3,6 +3,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   lang: "th-TH",
   title: "fare",
+  base: "/fare/",
   description: "Route-first vanilla SPA toolkit for jQuery/vanilla devs",
   lastUpdated: true,
   cleanUrls: true,
