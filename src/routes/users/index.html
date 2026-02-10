@@ -1,0 +1,31 @@
+<section>
+  <div class="row" style="justify-content: space-between;">
+    <div>
+      <h1 style="margin: 0 0 6px 0; font-size: 20px;">Users</h1>
+      <p style="margin: 0; color: var(--muted); line-height: 1.6;">
+        parent layout ที่มี outlet สำหรับ child route <code>/users/:id</code>
+      </p>
+    </div>
+
+    <div class="row">
+      <input class="input" id="q" placeholder="ค้นหาชื่อ..." />
+      <span class="badge">ทั้งหมด <span id="cnt">0</span></span>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row" style="align-items: flex-start;">
+    <aside style="min-width: 260px;">
+      <div id="list" class="row" style="flex-direction: column; align-items: stretch; gap: 10px;"></div>
+    </aside>
+
+    <div style="flex: 1;">
+      <div data-outlet>
+        <div style="color: var(--muted); line-height: 1.6;">
+          เลือก user ทางซ้ายเพื่อเปิด nested route
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+<section>
+  <h1 style="margin:0 0 6px 0; font-size: 20px;">Contact</h1>
+  <p style="margin:0 0 10px 0; color:var(--muted);">ส่งข้อความถึงทีมเราผ่านฟอร์มด้านล่าง</p>
+
+  <form id="contactForm">
+    <label>
+      <span>ชื่อ</span>
+      <input class="input" name="name" placeholder="เช่น สมชาย" required />
+    </label>
+    <label>
+      <span>อีเมล</span>
+      <input class="input" type="email" name="email" placeholder="you@example.com" required />
+    </label>
+    <label>
+      <span>ข้อความ</span>
+      <textarea class="input" name="message" rows="4" placeholder="บอกเราเกี่ยวกับความต้องการได้เลย" required></textarea>
+    </label>
+    <div class="row" style="margin-top: 10px;">
+      <button class="btn primary" type="submit">ส่งข้อความ</button>
+      <span class="badge" id="contactStatus">พร้อมส่ง</span>
+    </div>
+  </form>
+</section>

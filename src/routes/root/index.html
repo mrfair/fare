@@ -1,0 +1,42 @@
+<div class="container">
+  <header class="card" style="padding: 16px;">
+    <div class="row" style="justify-content: space-between;">
+      <div class="row" style="gap:10px;">
+        <div style="font-weight: 800; letter-spacing: .2px;">SPA Vanilla</div>
+        <span class="badge">chunks • nested • cleanup • guards</span>
+      </div>
+
+      <nav class="row" aria-label="Main">
+        <a class="btn" data-link href="/">หน้าแรก</a>
+        <a class="btn" data-link href="/users">Users</a>
+        <a class="btn" data-link href="/admin">Admin</a>
+        <a class="btn" data-link href="/component-demo">Component Demo</a>
+        <a class="btn" data-link href="/api-demo">API Demo</a>
+        <a class="btn" data-link href="/about">About</a>
+        <a class="btn" data-link href="/contact">Contact</a>
+      </nav>
+    </div>
+
+    <div class="row" style="justify-content: space-between; margin-top: 12px;">
+      <div style="color: var(--muted); font-size: 13px; line-height: 1.6;">
+        มีหน้า <code>401/403/404</code>, route guard, nested layouts และ <code>$</code> wrapper (vanilla)
+      </div>
+
+      <div class="row" style="gap: 10px;">
+        <span class="badge" id="sessionBadge" aria-live="polite">guest</span>
+        <a class="btn" data-link id="loginLink" href="/login">Login</a>
+        <button class="btn" id="logoutBtn" type="button">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main style="margin-top: 16px;">
+    <div class="card" style="padding: 16px;">
+      <div data-outlet></div>
+    </div>
+  </main>
+
+  <footer style="margin-top: 14px; color: var(--muted); font-size: 12px;">
+    <span>Tip: เปิด Network จะเห็นว่า route โหลดเป็น chunk แยกกัน + CSS แยกไฟล์</span>
+  </footer>
+</div>

@@ -1,0 +1,13 @@
+.user-item{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,.16);
+}
+.user-item:hover{ background: rgba(0,0,0,.22); }
+.user-name{ font-weight: 650; }
+.user-meta{ color: var(--muted); font-size: 12px; }
