@@ -9,7 +9,7 @@
 - [Routing](./ROUTING.md)
 - [Lifecycle](./LIFECYCLE.md)
 - [Components](./COMPONENTS.md)
-- [Caching](./CACHING.md)
+- [jQuery-like helpers](./JQUERY.md)
 - [Deploy](./DEPLOY.md)
 - [FAQ](./FAQ.md)
 - [Versioning & Releases](./VERSIONING.md)

@@ -1,8 +1,12 @@
 {
-  "name": "fare",
-  "private": true,
+  "name": "@cod9fair/fare",
   "version": "0.0.4",
   "type": "module",
+  "main": "dist/fare.cjs",
+  "module": "dist/fare.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "README.md", "LICENSE"],
+  "sideEffects": false,
   "scripts": {
     "dev": "vite",
     "build": "vite build",

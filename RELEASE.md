@@ -2,7 +2,7 @@
 
 ## One-time setup
 - Enable GitHub Actions in the repo
-- Update `.changeset/config.json` repo field: `<your-org>/<your-repo>`
+- Update `.changeset/config.json` repo field: `mrfair/fare`
 - (Optional) add `NPM_TOKEN` secret for npm publishing
 
 ## Normal flow

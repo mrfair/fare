@@ -13,10 +13,10 @@ export default defineConfig({
       { text: "Routing", link: "/ROUTING" },
       { text: "Lifecycle", link: "/LIFECYCLE" },
       { text: "Components", link: "/COMPONENTS" },
-      { text: "Caching", link: "/CACHING" },
+      { text: "jQuery helpers", link: "/JQUERY" },
       { text: "Deploy", link: "/DEPLOY" },
       { text: "Versioning", link: "/VERSIONING" },
-      { text: "GitHub", link: "https://github.com/<your-org>/<your-repo>" }
+      { text: "GitHub", link: "https://github.com/mrfair/fare" }
     ],
     sidebar: [
       {
@@ -31,22 +31,21 @@ export default defineConfig({
         items: [
           { text: "Routing", link: "/ROUTING" },
           { text: "Lifecycle", link: "/LIFECYCLE" },
-          { text: "Components", link: "/COMPONENTS" }
+          { text: "Components", link: "/COMPONENTS" },
+          { text: "jQuery-like helpers", link: "/JQUERY" }
         ]
       },
       {
         text: "Production",
         items: [
-          { text: "Caching", link: "/CACHING" },
           { text: "Deploy", link: "/DEPLOY" },
-      { text: "Versioning", link: "/VERSIONING" },
-          { text: "FAQ", link: "/FAQ" },
-          { text: "Versioning", link: "/VERSIONING" }
+          { text: "Versioning", link: "/VERSIONING" },
+          { text: "FAQ", link: "/FAQ" }
         ]
       }
     ],
     socialLinks: [
-      { icon: "github", link: "https://github.com/<your-org>/<your-repo>" }
+      { icon: "github", link: "https://github.com/mrfair/fare" }
     ],
     footer: {
       message: "MIT Licensed",

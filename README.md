@@ -1,17 +1,8 @@
-```text
-███████╗ █████╗ ██████╗ ███████╗
-██╔════╝██╔══██╗██╔══██╗██╔════╝
-█████╗  ███████║██████╔╝█████╗  
-██╔══╝  ██╔══██║██╔══██╗██╔══╝  
-██║     ██║  ██║██║  ██║███████╗
-╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
-```
+# fare
 
+Vintage vibe, modern build.
 
-<p align="center">
-  <em>Vintage vibe, modern build.</em><br/>
-  ชุดเครื่องมือ SPA แบบ <strong>route-first</strong> สำหรับคนเขียน jQuery/Vanilla — ไม่ต้องปวดหัวเรื่อง rerender/state
-</p>
+**fare** is a route-first vanilla SPA toolkit for jQuery/vanilla developers who want to organize apps by page, keep renders predictable, and avoid chasing costly rerender chains.
 
 <p align="center">
   <a href="./LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-b45309.svg"></a>
@@ -21,106 +12,54 @@
   <img alt="dx" src="https://img.shields.io/badge/DX-jQuery_like_%24-1f2937.svg">
 </p>
 
----
+## Why use fare?
 
-## ✦ What is fare?
+- **Route-first structure** – folders define routes and nested layouts, so you can think in pages instead of components before wiring navigation.
+- **Predictable lifecycle** – guards (401/403/404) and scoped cleanup (timers, listeners, fetches, observers) keep each route lean.
+- **jQuery-ish ergonomics** – a `$` wrapper that feels like jQuery (including `$("<button>")` element creation) without pulling in a DOM library.
+- **Performance-friendly output** – dynamic imports split code per route and its CSS, plus a service worker-ready loader that keeps cache hits fast.
+- **Design goal** – predictable UIs, fast loading, and “no surprise rerenders.”
 
-**EN** — A route-first vanilla SPA toolkit that feels familiar to jQuery/vanilla developers.  
-**TH** — ระบบ SPA โครงชัด “คิดเป็นหน้า (route) ก่อน” ใช้งานง่าย อัปเดต UI แบบตรง ๆ ไม่ต้องไล่ rerender chain
+> EN: A modern toolkit for people who still want the simplicity of jQuery-style DOM control.
 
-> **Design goal:** predictable UI, fast loads, and “no surprise rerenders”.
+> TH: ระบบ SPA โครงชัด “คิดเป็นหน้า (route) ก่อน” เรียกใช้งานง่าย อัปเดต UI แบบตรง ๆ ไม่ต้องไล่ rerender chain.
 
----
+## Quick start
 
-## ✦ Highlights
-
-- **File-based routing** (+ nested layouts): routes = folders
-- **Guards**: 401 / 403 / 404 patterns
-- **Code-splitting per route** (dynamic import) + **CSS split** (cache-friendly)
-- **`$` jQuery-like wrapper (vanilla)** + supports **`$('<button>')`** element creation
-- **Auto-destroy** for event listeners:
-  - on route change: `$.destroyTree(host)`
-  - on DOM removal: MutationObserver
-- **Lifecycle scope (A–D)**:
-  - auto abort fetch, auto clear timers, auto remove global listeners, observer cleanup
-  - `isActive()` to prevent async race updates
-
----
-
-## ✦ Quick Start
-
-### Development
 ```bash
-npm i
+npm install
 npm run dev
 ```
 
-### Build & Preview
-```bash
-npm run build
-npm run preview
-```
+- **Develop** with `npm run dev` (Vite) and keep `src/routes` as the entrypoint for each page.
+- **Build** with `npm run build` and check the production bundle with `npm run preview`.
+- **Docs site** is powered by VitePress:
+  - `npm run docs:dev` (self-hosted doc server)
+  - `npm run docs:build` (static output for GitHub Pages)
+  - `npm run docs:preview` (preview the built docs)
 
-> **Note (Deploy / Refresh 404):**  
-> Static hosting ต้องตั้ง rewrite ทุก path → `index.html` (ดู `docs/DEPLOY.md`)
+> Note: Static hosts should rewrite all paths to `index.html`. See `docs/DEPLOY.md` for platform-specific tips.
 
----
+## Documentation & guides
 
-## ✦ “Feels like jQuery” examples
+The `docs/` folder holds comprehensive guides (Thai/English) for:
 
-### Create element like jQuery
-```js
-const btn = $("<button class='btn'>OK</button>")
-  .on("click", () => console.log("click"))
-  .addClass("primary");
+- `docs/GETTING_STARTED.md` – directory structure, routing, and lifecycle basics
+- `docs/ROUTING.md` – file-based/nested layouts plus guard patterns
+- `docs/LIFECYCLE.md` – automatic teardown, `$.destroyTree`, and `isActive()`
+- `docs/COMPONENTS.md` – building reusable widgets with `$`-wrapped DOM
+- `docs/JQUERY.md` – full reference of the `$`/`$$` helpers and cleanup expectations
+- `docs/DEPLOY.md` – rewrites, service worker considerations, SEO headers
+- `docs/FAQ.md` – common questions and troubleshooting, including rerender myths
+- `docs/VERSIONING.md` – release workflow powered by Changesets
+- `docs/README.md` – entry point with command references and navigation
 
-// optional cleanup (if you keep references)
-btn.destroy();
-```
+## Community & contribution
 
-### Component style (ESM)
-```js
-// src/components/bt.js
-export function bt() {
-  return $("<button class='btn'>Click</button>")
-    .on("click", () => console.log("hi"));
-}
-```
-
----
-
-
-## ✦ Docs Site (VitePress)
-
-```bash
-npm run docs:dev
-```
-
-Build for GitHub Pages:
-```bash
-npm run docs:build
-```
-
-## ✦ Documentation (TH/EN)
-- `docs/README.md` — docs index
-- `docs/GETTING_STARTED.md`
-- `docs/ROUTING.md`
-- `docs/LIFECYCLE.md`
-- `docs/COMPONENTS.md`
-- `docs/CACHING.md`
-- `docs/DEPLOY.md`
-- `docs/FAQ.md`
-- `docs/VERSIONING.md`
-
----
-
-## ✦ Community
-- `CONTRIBUTING.md`
-- `CODE_OF_CONDUCT.md`
-- `SECURITY.md`
-- `CHANGELOG.md`
-
----
+- Follow the [code of conduct](CODE_OF_CONDUCT.md) and read [CONTRIBUTING.md](CONTRIBUTING.md) before sending changes.
+- Security issues go through [SECURITY.md](SECURITY.md).
+- Stay in sync with the project via [CHANGELOG.md](CHANGELOG.md) and Releases powered by Changesets.
 
 ## License
+
 MIT © 2026 — see `LICENSE`.

@@ -3,7 +3,8 @@
  *
  * Usage:
  *   $("#btn").on("click", fn)
- *   $("#box").addClass("a b").css("opacity", "0.8")
+ *   $("#box").addClass("a b").text("ready")
+ *   $("#box").append("<span>item</span>")
  *   $("#x").text("hi").html("<b>ok</b>")
  *   $$("#items").forEach(el => ...)   // returns real Elements
  *
@@ -63,7 +64,70 @@ function __destroyEl(el) {
   }
   __listenerRegistry.delete(el);
 }
+function normalizeContents(values) {
+  const nodes = [];
 
+  const collect = (value) => {
+    if (value == null) return;
+    if (Array.isArray(value)) {
+      value.forEach(collect);
+      return;
+    }
+    if (value instanceof Node) {
+      nodes.push(value);
+      return;
+    }
+    if (typeof value === "object" && value !== null && typeof value.get === "function") {
+      const el = value.get();
+      if (el instanceof Node) nodes.push(el);
+      return;
+    }
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (trimmed.startsWith("<") && trimmed.endsWith(">")) {
+        const template = document.createElement("template");
+        template.innerHTML = value;
+        nodes.push(...Array.from(template.content.childNodes));
+        return;
+      }
+      nodes.push(document.createTextNode(value));
+    }
+  };
+
+  values.forEach(collect);
+  return nodes;
+}
+
+function resolveElements(target) {
+  const nodes = [];
+
+  const collect = (value) => {
+    if (!value) return;
+    if (Array.isArray(value)) {
+      value.forEach(collect);
+      return;
+    }
+    if (value instanceof Node) {
+      nodes.push(value);
+      return;
+    }
+    if (typeof value === "object" && value !== null && typeof value.get === "function") {
+      const el = value.get();
+      if (el instanceof Node) nodes.push(el);
+      return;
+    }
+    if (typeof value === "string") {
+      nodes.push(...Array.from(document.querySelectorAll(value)));
+      return;
+    }
+    if (typeof value === "object" && typeof value.length === "number" && typeof value.item === "function") {
+      Array.from(value).forEach(collect);
+    }
+  };
+
+  collect(target);
+  return nodes;
+}
 
 
 export function $$(sel, ctx = document) {
@@ -138,13 +202,6 @@ class MiniQuery {
     return this;
   }
 
-  css(prop, value) {
-    if (!this.el) return value === undefined ? undefined : this;
-    if (value === undefined) return getComputedStyle(this.el)[prop];
-    this.el.style[prop] = String(value);
-    return this;
-  }
-
   addClass(...names) {
     if (!this.el) return this;
     this.el.classList.add(...names.flatMap(n => String(n).split(/\s+/).filter(Boolean)));
@@ -162,6 +219,91 @@ class MiniQuery {
     this.el.classList.toggle(name, force);
     return this;
   }
+
+  append(...contents) {
+    if (!this.el) return this;
+    const nodes = normalizeContents(contents);
+    for (const node of nodes) {
+      this.el.appendChild(node);
+    }
+    return this;
+  }
+
+  appendTo(target) {
+    if (!this.el) return this;
+    const parents = resolveElements(target);
+    if (!parents.length) return this;
+    parents.forEach((parent, index) => {
+      const node = index === parents.length - 1 ? this.el : this.el.cloneNode(true);
+      parent.appendChild(node);
+    });
+    return this;
+  }
+
+  prepend(...contents) {
+    if (!this.el) return this;
+    const nodes = normalizeContents(contents);
+    if (!nodes.length) return this;
+    const ref = this.el.firstChild;
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      this.el.insertBefore(nodes[i], ref);
+    }
+    return this;
+  }
+
+  prependTo(target) {
+    if (!this.el) return this;
+    const parents = resolveElements(target);
+    if (!parents.length) return this;
+    parents.forEach((parent, index) => {
+      const node = index === parents.length - 1 ? this.el : this.el.cloneNode(true);
+      parent.insertBefore(node, parent.firstChild);
+    });
+    return this;
+  }
+
+  before(...contents) {
+    if (!this.el || !this.el.parentNode) return this;
+    const nodes = normalizeContents(contents);
+    for (const node of nodes) {
+      this.el.parentNode.insertBefore(node, this.el);
+    }
+    return this;
+  }
+
+  after(...contents) {
+    if (!this.el || !this.el.parentNode) return this;
+    const nodes = normalizeContents(contents);
+    const ref = this.el.nextSibling;
+    for (const node of nodes) {
+      this.el.parentNode.insertBefore(node, ref);
+    }
+    return this;
+  }
+
+  closest(selector) {
+    if (!this.el) return $(null);
+    return $(this.el.closest(selector));
+  }
+
+  parent() {
+    if (!this.el) return $(null);
+    return $(this.el.parentElement);
+  }
+
+  find(selector) {
+    if (!this.el) return $(null);
+    return $(this.el.querySelector(selector));
+  }
+
+  remove() {
+    if (!this.el) return this;
+    if (this.el.parentNode) {
+      this.el.parentNode.removeChild(this.el);
+    }
+    $.destroy(this.el);
+    return this;
+  }
 }
 
 /**
@@ -169,11 +311,6 @@ class MiniQuery {
  * - exposes MiniQuery methods (.on/.text/.addClass/...)
  * - forwards unknown properties to the underlying Element (so existing code still works)
  * - provides .get() to retrieve the raw element safely
- */
-, ctx?) returns a Proxy that:
- * - exposes MiniQuery methods (.on/.text/.addClass/...)
- * - forwards unknown properties to the underlying Element (so existing code using .textContent still works)
- * - provides .get( ) to retrieve the raw element safely
  */
 export function $(sel, ctx = document) {
   const el = toEl(sel, ctx);
@@ -234,10 +371,6 @@ $.create = function create(html) {
 
 $.attr = function attr(el, name, value) {
   return $(el).attr(name, value);
-};
-
-$.css = function css(el, prop, value) {
-  return $(el).css(prop, value);
 };
 
 $.addClass = function addClass(el, ...names) {
