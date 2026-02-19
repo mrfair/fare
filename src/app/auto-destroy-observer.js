@@ -1,4 +1,4 @@
-import { $ } from "./dom.js";
+import { $ } from "./dom.ts";
 
 let started = false;
 let observer = null;
@@ -8,7 +8,7 @@ let observer = null;
  * This uses MutationObserver and calls $.destroyTree(node) on removed nodes.
  *
  * Notes:
- * - Only affects listeners registered via `$().on(...)` (tracked in dom.js registry).
+ * - Only affects listeners registered via `$().on(...)` (tracked in dom.ts registry).
  * - Timers/fetch/observers still need explicit cleanup via route cleanup.
  * - For large DOM churn apps, you may want to disable or scope this.
  */

@@ -1,4 +1,4 @@
-import { $ } from "../app/dom.js";
+import { $ } from "../app/dom.ts";
 
 /**
  * jQuery-style component example.

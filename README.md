@@ -37,6 +37,9 @@ npm run dev
   - `npm run docs:dev` (self-hosted doc server)
   - `npm run docs:build` (static output for GitHub Pages)
   - `npm run docs:preview` (preview the built docs)
+- **TypeScript route sample** at `/ts-example` demonstrates how to use typed helpers, router hooks, and query params inside `src/routes/ts-example/index.ts`.
+- **Type-check** with `npm run type-check` to keep the TS sources synced with `tsconfig.json`.
+- **Test** with `npm run test` (Vitest + jsdom) to verify MiniQuery helpers against the DOM wrappers.
 
 > Note: Static hosts should rewrite all paths to `index.html`. See `docs/DEPLOY.md` for platform-specific tips.
 

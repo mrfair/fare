@@ -86,4 +86,4 @@ Router จะเรียก `ensureErrorPage` (พร้อม route `/401`, `/
 ## Troubleshooting
 - เรียก `ensureErrorPage(404)` ให้แน่ใจว่ามี `src/routes/404/index.js`
 - ถ้า route ไม่โหลด ให้เช็คว่า `index.js` อยู่ในโฟลเดอร์ที่ถูกต้อง (ต้องเป็น path ที่ glob `../routes/**/index.js` เจอ)
-- ใช้ `ctx.$` หรือ `$` จาก `src/app/dom.js` เพื่อเลือก/สร้าง element ในบริบทของ route
+- ใช้ `ctx.$` หรือ `$` จาก `src/app/dom.ts` เพื่อเลือก/สร้าง element ในบริบทของ route

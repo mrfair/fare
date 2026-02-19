@@ -5,12 +5,14 @@
   "main": "dist/fare.cjs",
   "module": "dist/fare.mjs",
   "types": "dist/index.d.ts",
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": ["dist", "types", "README.md", "LICENSE"],
   "sideEffects": false,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "type-check": "tsc --project tsconfig.json --noEmit",
+    "test": "vitest run",
     "lint": "node ./tools/eslint.mjs",
     "format": "prettier -w .",
     "docs:dev": "vitepress dev docs",
@@ -34,7 +36,11 @@
     "@changesets/changelog-github": "^0.5.0",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "husky": "^9.1.6"
+    "husky": "^9.1.6",
+    "typescript": "^5.4.7",
+    "@types/node": "^22.5.5",
+    "vitest": "^1.5.0",
+    "jsdom": "^22.1.0"
   },
   "description": "Route-first vanilla SPA toolkit for jQuery/vanilla devs \u2014 no VDOM, no rerender headaches.",
   "license": "MIT"

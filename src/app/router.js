@@ -1,4 +1,4 @@
-import { $ } from "./dom.js";
+import { $ } from "./dom.ts";
 import { createScope } from "./lifecycle.js";
 import { getSession, isAuthed, getRoles } from "./auth.js";
 
@@ -27,9 +27,14 @@ function routePathFromFileKey(key) {
   const idx = key.lastIndexOf(marker);
   if (idx === -1) return null;
   const routeTail = key.slice(idx + marker.length);
-  if (!routeTail.endsWith("/index.js")) return null;
+  const suffix = routeTail.endsWith("/index.js")
+    ? "/index.js"
+    : routeTail.endsWith("/index.ts")
+      ? "/index.ts"
+      : null;
+  if (!suffix) return null;
 
-  const routeSegment = routeTail.slice(0, -"/index.js".length);
+  const routeSegment = routeTail.slice(0, -suffix.length);
   const parts = routeSegment.split("/");
   const segs = parts.map((s) => {
     if (s === "root") return "";
@@ -63,7 +68,7 @@ export function createRouter({ appEl = "#app" } = {}) {
   const app = $(appEl);
   if (!app) throw new Error(`Router: app element not found: ${appEl}`);
 
-  const modules = import.meta.glob("../routes/**/index.js", { eager: false });
+  const modules = import.meta.glob("../routes/**/index.{js,ts}", { eager: false });
 
   const table = Object.keys(modules).map((key) => {
     const path = routePathFromFileKey(key);

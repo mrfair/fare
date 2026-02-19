@@ -1,6 +1,6 @@
 import template from "./index.html?raw";
 import "./index.scss";
-import { $ } from "../../app/dom.js";
+import { $ } from "../../app/dom.ts";
 import { bt } from "../../components/bt.js";
 
 export { template };

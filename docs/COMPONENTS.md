@@ -30,4 +30,4 @@
 - Document expected props, emitted events, and required cleanup when the component is reused.
 
 ## Reference
-- The full `$`/`MiniQuery` API lives in `src/app/dom.js`—see the new **jQuery-like helpers** page (`docs/JQUERY.md`) for the complete list of supported functions and how they tie into cleanup.
+- The full `$`/`MiniQuery` API lives in `src/app/dom.ts`—see the new **jQuery-like helpers** page (`docs/JQUERY.md`) for the complete list of supported functions and how they tie into cleanup.
