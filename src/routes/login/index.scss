@@ -1,0 +1,11 @@
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-4);
+}
+
+.login-card-root {
+  width: min(420px, 100%);
+}

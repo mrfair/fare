@@ -29,5 +29,7 @@
 - Export small APIs (e.g., `bt({ text, onClick })`) so testers can mount them independently of routes.
 - Document expected props, emitted events, and required cleanup when the component is reused.
 
-## Reference
-- The full `$`/`MiniQuery` API lives in `src/app/dom.ts`—see the new **jQuery-like helpers** page (`docs/JQUERY.md`) for the complete list of supported functions and how they tie into cleanup.
+## Atomic architecture & styling rules
+- See `src/components/README.md` for the latest Atomic Design breakdown (Atoms/Molecules/Organisms) and the utility-first styling reminder: prefer `src/app/mini-tailwind.css` helpers before adding any custom selectors.
+- The login route now mounts a `FormField` + `PasswordField` combo built from those primitives; you can reuse them in other routes to keep token usage consistent and takedown handling predictable.
+- Reference the `docs/JQUERY.md` page for `$`/`MiniQuery` helpers and cleanup patterns with those components.

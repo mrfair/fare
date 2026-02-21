@@ -1,4 +1,4 @@
-export async function registerServiceWorker() {
+export async function registerServiceWorker(): Promise<void> {
   if (!("serviceWorker" in navigator)) return;
   try {
     const reg = await navigator.serviceWorker.register("/sw.js", { scope: "/" });
@@ -9,7 +9,7 @@ export async function registerServiceWorker() {
         // Hook UI toast/banner here if desired.
       });
     });
-  } catch (e) {
-    console.warn("Service worker registration failed:", e);
+  } catch (error) {
+    console.warn("Service worker registration failed:", error);
   }
 }

@@ -58,11 +58,11 @@
   - CloudFront: ตั้ง `ErrorResponse` 404 → `/index.html`, HTTP 200.
 
 ## Service worker & offline
-- Service worker register (`src/app/sw-register.js`) รันเฉพาะ `import.meta.env.PROD`.
+- Service worker register (`src/app/sw-register.ts`) รันเฉพาะ `import.meta.env.PROD`.
 - SW cache strategy (assets + navigation) ต้อง sync กับ rewrite; อย่า map `scope` เป็นอื่นนอกจาก `/` เว้นแต่ไฟล์ถูก deploy ใน subfolder แล้วตั้ง `base`.
 - ถ้าต้อง force update service worker: bump manifest / rename cache, หรือปิด browser cache เพื่อให้ browser โหลด SW ใหม่.
 - SW ต้องใช้ HTTPS หรือ `localhost` เท่านั้น — บน production เปิด TLS ให้ครบ.
-- ถ้าต้องปิด SW ชั่วคราว ให้แก้ `src/app/sw-register.js` (หรือกำหนด flag อย่าง `window.__SW_DISABLED__ = true` ก่อน import) แล้ว build ใหม่.
+- ถ้าต้องปิด SW ชั่วคราว ให้แก้ `src/app/sw-register.ts` (หรือกำหนด flag อย่าง `window.__SW_DISABLED__ = true` ก่อน import) แล้ว build ใหม่.
 
 ## Environment & backend integration
 - ถ้ามี API backend ให้แนใจว่า host รองรับ `/api/` (Vite dev server ใช้ proxy ใน `vite.config.js`: `server.proxy = { "/api": "http://localhost:8787" }`).

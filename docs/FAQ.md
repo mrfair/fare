@@ -23,7 +23,7 @@ fare เน้น event-driven UI แบบตรงไปตรงมา (ค�
 หน้า `docs/JQUERY.md` อธิบาย `$`, `$$`, methods (`on`, `addClass`, `append`, `remove`, ฯลฯ) และ static helper (`$.destroyTree`, `$.delegate`) ว่า router จะ cleanup ยังไง.
 
 ## จะ deploy ยังไงให้ service worker ทำงาน
-`src/app/sw-register.js` ลงทะเบียนเฉพาะ `import.meta.env.PROD`: ต้องมี HTTPS (หรือ localhost). ดู `docs/DEPLOY.md` เรื่อง cache scope, forced update และ flag ชั่วคราว (`window.__SW_DISABLED__` ถ้ามี). พูดถึง rewrite + offline caching ใน section “Service worker & offline”.
+`src/app/sw-register.ts` ลงทะเบียนเฉพาะ `import.meta.env.PROD`: ต้องมี HTTPS (หรือ localhost). ดู `docs/DEPLOY.md` เรื่อง cache scope, forced update และ flag ชั่วคราว (`window.__SW_DISABLED__` ถ้ามี). พูดถึง rewrite + offline caching ใน section “Service worker & offline”.
 
 ## ต้องใช้ docs local ยังไง
 รัน `npm run docs:dev` เพื่อดู VitePress site, `npm run docs:build` เพื่อ output สแตติก, `npm run docs:preview` เพื่อดู build แล้ว; คำสั่งทั้งหมดอยู่บน `docs/README.md`.

@@ -4,6 +4,7 @@
 - Enable GitHub Actions in the repo
 - Update `.changeset/config.json` repo field: `mrfair/fare`
 - (Optional) add `NPM_TOKEN` secret for npm publishing
+- git commit -m 'feat: your update description'
 
 ## Normal flow
 1) Make changes
@@ -15,3 +16,4 @@ npm run changeset
 4) Push / merge to `main`
 
 The Release workflow will open/update a version PR. Merge it to release.
+

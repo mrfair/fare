@@ -1,7 +1,7 @@
 import template from "./index.html?raw";
 import "./index.scss";
 import { $ } from "../../app/dom.ts";
-import { getSession, logout } from "../../app/auth.js";
+import { getSession, logout } from "../../app/auth.ts";
 
 export { template };
 export const outletSelector = "[data-outlet]";

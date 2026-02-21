@@ -86,5 +86,5 @@ $('<div>').html([
 
 ## Auto-clean integration
 - All `$` listeners are tracked in a WeakMap so `$.destroyTree(host)` wipes them when the router changes layout.
-- MutationObserver (see `src/app/auto-destroy-observer.js`) watches for removed nodes and calls `$.destroyTree` so you don’t have to manually remove DOM unless you want to.
+- MutationObserver (see `src/app/auto-destroy-observer.ts`) watches for removed nodes and calls `$.destroyTree` so you don’t have to manually remove DOM unless you want to.
 - When a component/route returns `destroy()`, call it before DOM removal to clean anything the helpers cannot auto-handle (timers, observers, custom libs).

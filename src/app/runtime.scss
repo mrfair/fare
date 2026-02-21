@@ -9,6 +9,51 @@
   --danger: #ff4d6d;
   --shadow: 0 12px 32px rgba(0,0,0,.25);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Thai", sans-serif;
+  /* spacing (4px scale) */
+  --s-0: 0px;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+  --s-32: 128px;
+  /* radius */
+  --r-none: 0px;
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-2xl: 24px;
+  --r-full: 9999px;
+  /* container helpers */
+  --container-max: 1120px;
+  --container-pad: var(--s-4);
+  /* typography helpers */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  /* border widths */
+  --b-0: 0px;
+  --b-1: 1px;
+  --b-2: 2px;
+  /* neutral helpers */
+  --c-border: rgba(0,0,0,0.14);
+  --c-ring: rgba(0,0,0,0.25);
+  /* shadows */
+  --sh-sm: 0 1px 2px rgba(0,0,0,0.08);
+  --sh-md: 0 6px 18px rgba(0,0,0,0.12);
+  --sh-lg: 0 18px 40px rgba(0,0,0,0.16);
 }
 *{ box-sizing: border-box; }
 body{
@@ -24,7 +69,6 @@ a:focus-visible, button:focus-visible, input:focus-visible{
   outline-offset: 2px;
   border-radius: 10px;
 }
-.container{ max-width: 1040px; margin: 0 auto; padding: 20px; }
 .card{ background: var(--card); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow); }
 .row{ display:flex; gap: 12px; align-items:center; flex-wrap: wrap; }
 .btn{
@@ -48,5 +92,10 @@ a:focus-visible, button:focus-visible, input:focus-visible{
   padding: 10px 12px;
   min-width: 220px;
 }
-hr{ border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+.divider{ border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 code{ padding: 2px 6px; border-radius: 8px; background: rgba(0,0,0,.20); border: 1px solid var(--border); font-size: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@import "./mini-tailwind.css";
+ .helper-text{ font-size: 0.85rem; color: var(--muted); margin: 4px 0 0; }
+ .helper-text[data-state=\"error\"]{ color: var(--danger); }

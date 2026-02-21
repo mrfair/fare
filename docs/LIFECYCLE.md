@@ -7,7 +7,7 @@
 fare จะดูแล lifecycle ของ route แบบ 3 ชั้น:
 
 1. **Auto-destroy DOM listeners** – เมื่อ router เปลี่ยน route จะเรียก `$.destroyTree(host)` กับ `host` ที่เป็น container ปัจจุบันเพื่อถอด `addEventListener` ที่ผูกผ่าน `$().on(...)` ทั้งหมด ถ้า DOM ถูกลบล้างโดยตรง (เช่น `host.innerHTML = ""`) ก็จะมี MutationObserver แบบ global ที่เรียก `$.destroyTree(removedNode)` ให้โดยอัตโนมัติ
-2. **Scope helper ใน mount** – router จะสร้าง scope (`createScope`) และส่ง helper ลงมาด้วย (ดู `src/app/lifecycle.js`). ใน `mount(ctx)` เรียกใช้งานได้ทันที:
+2. **Scope helper ใน mount** – router จะสร้าง scope (`createScope`) และส่ง helper ลงมาด้วย (ดู `src/app/lifecycle.ts`). ใน `mount(ctx)` เรียกใช้งานได้ทันที:
    - `setTimeout(...)`, `setInterval(...)` → ไทเมอร์ทั้งหมดจะถูกล้างเมื่อล้าง scope
    - `abortController()` / `fetch(...)` → เชื่อมกับ AbortController เพื่อ abort คำขอเมื่อ route เปลี่ยน
    - `on(target, type, handler)` → ใส่ listener ให้ global target (window, document, media query ฯลฯ) โดย router จะล้างออกให้อัตโนมัติ
