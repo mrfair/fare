@@ -1,5 +1,5 @@
 import { $ } from "./dom.ts";
-import { getSession, isAuthed, getRoles, SessionMirror } from "./auth.ts";
+import { getSession, isAuthed, getRoles, SessionMirror } from "./auth.ts";import { createApi, type FareApi } from "./api/index.ts";
 
 type Params = Record<string, string>;
 type NavigateOptions = { replace?: boolean; state?: unknown };
@@ -35,6 +35,7 @@ interface RouterMatch {
 }
 
 interface RouterBaseContext {
+  api: FareApi;
   path: string;
   query: Record<string, string | string[]>;
   url: URL;
@@ -219,6 +220,12 @@ export function createRouter({ appEl = "#app" } = {}): RouterInstance {
   }
 
   function makeCtxBase(url: URL): RouterBaseContext {
+  const api = createApi({
+    fetch: window.fetch.bind(window),
+    basePath: "/api",
+    getToken: () => localStorage.getItem("token"),
+  });
+
     return {
       path: url.pathname,
       query: parseQuery(url.search),
@@ -230,6 +237,7 @@ export function createRouter({ appEl = "#app" } = {}): RouterInstance {
       navigate,
       setState,
       prefetch,
+      api
     };
   }
 

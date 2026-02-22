@@ -40,11 +40,11 @@ Each organism should expose configuration (props/slots) so it’s reusable acros
 - **ConsentBlock** – checkbox + links for legal consent.
 
 ## F) Overlays & Transient
-- **Modal**
-- **Drawer / BottomSheet**
-- **Popover**
-- **ToastSystem**
-- **NotificationCenter**
+- **Modal** – centered overlay container with title/content and close controls.
+- **Drawer / BottomSheet** – slide-in panel from edge/bottom with close action.
+- **Popover** – floating helper attached to triggers.
+- **ToastSystem** – stack of brief notifications using `ToastItem`.
+- **NotificationCenter** – persistent list of notifications with a clear action.
 
 ## G) System states
 - **LoadingSection** – skeleton layout, placeholder structure.
