@@ -18,18 +18,18 @@ CREATE TABLE IF NOT EXISTS outbox (
   created_at INTEGER NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS outbox-sent-idx ON outbox(sent_at);
-CREATE INDEX IF NOT EXISTS outbox-entity-idx ON outbox(entity, entity_id);
+CREATE INDEX IF NOT EXISTS outbox_sent_idx ON outbox(sent_at);
+CREATE INDEX IF NOT EXISTS outbox_entity_idx ON outbox(entity, entity_id);
 
-CREATE TABLE IF NOT EXISTS schools (
+CREATE TABLE IF NOT EXISTS projects (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
-  city TEXT,
+  member_id TEXT NOT NULL,
   updated_hlc TEXT NOT NULL,
   deleted_hlc TEXT,
   updated_by TEXT
 );
 
-CREATE INDEX IF NOT EXISTS schools-updated-idx ON schools(updated_hlc);
-CREATE INDEX IF NOT EXISTS schools-deleted-idx ON schools(deleted_hlc);
+CREATE INDEX IF NOT EXISTS projects_updated_idx ON projects(updated_hlc);
+CREATE INDEX IF NOT EXISTS projects_deleted_idx ON projects(deleted_hlc);
 

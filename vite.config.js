@@ -24,6 +24,9 @@ export default defineConfig({
       },
     },
   },
+  mimeTypes: {
+    wasm: "application/wasm",
+  },
   build: {
     cssCodeSplit: true,
     sourcemap: true,

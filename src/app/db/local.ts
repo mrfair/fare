@@ -8,6 +8,7 @@
 // You can swap VFS later (OPFS, etc).
 
 import SQLiteAsyncESMFactory from "wa-sqlite/dist/wa-sqlite-async.mjs";
+import wasmUrl from "wa-sqlite/dist/wa-sqlite-async.wasm?url";
 import * as SQLite from "wa-sqlite";
 import { IDBBatchAtomicVFS } from "wa-sqlite/src/examples/IDBBatchAtomicVFS.js";
 
@@ -21,7 +22,9 @@ let _vfsRegistered = new Set<string>();
 async function getSqlite3(): Promise<SQLiteApi> {
   if (_sqlite3Promise) return _sqlite3Promise;
   _sqlite3Promise = (async () => {
-    const module = await SQLiteAsyncESMFactory();
+    const module = await SQLiteAsyncESMFactory({
+      locateFile: (path) => (path.endsWith(".wasm") ? wasmUrl : path),
+    });
     return SQLite.Factory(module);
   })();
   return _sqlite3Promise;
