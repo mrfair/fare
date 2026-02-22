@@ -13,6 +13,9 @@
   ],
   "sideEffects": false,
   "scripts": {
+    "gen:schema": "tsx scripts/gen-schema.ts",
+    "predev": "npm run gen:schema",
+    "prebuild": "npm run gen:schema",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -42,6 +45,7 @@
     "jsdom": "^22.1.0",
     "prettier": "^3.3.3",
     "sass": "^1.77.8",
+    "tsx": "^4.20.0",
     "typescript": "^5.4.7",
     "vite": "^7.3.1",
     "vitepress": "^1.6.4",

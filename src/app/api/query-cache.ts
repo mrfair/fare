@@ -1,7 +1,13 @@
 // queryCache.ts
 type CacheEntry<T> = { data?: T; expiresAt?: number; inFlight?: Promise<T> };
 
-export function createQueryCache() {
+export type QueryCache = {
+  query: <T>(keyParts: any[], fetcher: () => Promise<T>, opts?: { ttlMs?: number }) => Promise<T>;
+  invalidate: (prefixParts: any[]) => void;
+  clear: () => void;
+};
+
+export function createQueryCache(): QueryCache {
   const store = new Map<string, CacheEntry<any>>();
 
   function getKey(parts: any[]) {
@@ -37,5 +43,9 @@ export function createQueryCache() {
     for (const k of store.keys()) if (k.startsWith(prefix.slice(0, -1))) store.delete(k);
   }
 
-  return { query, invalidate };
+  function clear() {
+    store.clear();
+  }
+
+  return { query, invalidate, clear };
 }
