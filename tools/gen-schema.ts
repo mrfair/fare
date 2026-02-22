@@ -1,4 +1,5 @@
-// scripts/gen-schema.ts
+// tools/gen-schema.ts
+// Works out-of-the-box with: "gen:schema": "tsx tools/gen-schema.ts"
 import { writeFileSync } from "node:fs";
 import { schemaSpec } from "../src/schema/schema-spec";
 
@@ -17,7 +18,7 @@ function indexSql(t: any, i: any) {
 }
 
 let out = `-- GENERATED FILE. DO NOT EDIT.
--- Generated from src/schema/schemaSpec.ts
+-- Generated from src/schema/schema-spec.ts
 -- Run: npm run gen:schema
 
 `;
@@ -26,10 +27,7 @@ for (const t of schemaSpec.tables) {
   out += `CREATE TABLE IF NOT EXISTS ${t.name} (\n`;
   out += t.columns.map((c: any) => `  ${colSql(c)}`).join(",\n");
   out += `\n);\n\n`;
-
-  for (const i of t.indexes ?? []) {
-    out += indexSql(t, i) + "\n";
-  }
+  for (const i of t.indexes ?? []) out += indexSql(t, i) + "\n";
   out += "\n";
 }
 

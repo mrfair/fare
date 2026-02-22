@@ -1,0 +1,62 @@
+.fade-home{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.08), transparent 40%),
+    radial-gradient(circle at 20% 50%, rgba(124,92,255,.3), transparent 45%),
+    var(--bg);
+}
+
+.home-grid{
+  text-align:center;
+  padding:var(--s-6) var(--s-5);
+  border-radius:var(--r-2xl);
+  box-shadow:0 25px 60px rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.15);
+  backdrop-filter: blur(16px);
+  background:rgba(7,11,29,.65);
+  animation: zoomIn 1s ease both;
+}
+ code {
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+    border: none;
+    border-radius: none;
+    background: none;
+}
+.home-code{  
+  display:block;
+  color:var(--text); 
+}
+
+.home-sub{
+  margin-top:var(--s-2);
+  color:rgba(255,255,255,.7);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  font-size:0.95rem;
+}
+
+@keyframes zoomIn{
+  from{
+    transform:scale(0.8);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}

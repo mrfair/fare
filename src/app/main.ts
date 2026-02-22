@@ -1,9 +1,9 @@
 import "./runtime.scss";
-import { createRouter } from "./router.ts";
-import type { RouterInstance } from "./router.ts";
-import { registerServiceWorker } from "./sw-register.ts";
-import { bootstrapSession } from "./auth.ts";
-import { startAutoDestroyObserver } from "./auto-destroy-observer.ts";
+import { createRouter } from "./router";
+import type { RouterInstance } from "./router";
+import { registerServiceWorker } from "./sw-register";
+import { bootstrapSession } from "./auth";
+import { startAutoDestroyObserver } from "./auto-destroy-observer";
 
 declare global {
   interface Window {
@@ -14,7 +14,7 @@ declare global {
 }
 
 (async () => {
-  await bootstrapSession();
+  // await bootstrapSession();
 
   const router = createRouter({ appEl: "#app" });
   const __autoDestroyEnabled = window.__AUTO_DESTROY_OBSERVER__ !== false;

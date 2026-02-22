@@ -30,7 +30,9 @@
     "version-packages": "changeset version",
     "release": "changeset publish",
     "prepare": "husky",
-    "commitlint": "commitlint --edit"
+    "commitlint": "commitlint --edit",
+    "predocs:dev": "npm run gen:schema",
+    "predocs:build": "npm run gen:schema"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",

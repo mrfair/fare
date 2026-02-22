@@ -104,9 +104,11 @@ function routePathFromFileKey(key: string): string | null {
   const routeTail = key.slice(idx + marker.length);
   const suffix = routeTail.endsWith("/index.js")
     ? "/index.js"
-    : routeTail.endsWith("/index")
-      ? "/index"
-      : null;
+    : routeTail.endsWith("/index.ts")
+      ? "/index.ts"
+      : routeTail.endsWith("/index")
+        ? "/index"
+        : null;
   if (!suffix) return null;
 
   const routeSegment = routeTail.slice(0, -suffix.length);

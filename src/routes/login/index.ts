@@ -1,81 +1,69 @@
 import template from "./index.html?raw";
 import "./index.scss";
 
-import { $ } from "../../app/dom.ts";
+import { $ } from "../../app/dom";
 import { Button } from "../../components/Atoms/Button";
 import { HelperText } from "../../components/Atoms/HelperText";
-import { Heading, Text } from "../../components/Atoms/Text";
 import { FormField } from "../../components/Molecules/FormField";
-import { PasswordField } from "../../components/Molecules/PasswordField";
+
+export { template };
 
 type LoginContext = {
   root: Element;
 };
 
-export { template };
-
 export function mount({ root }: LoginContext) {
-  const slot = $("#loginCardRoot", root);
+  const slot = $("#loginFormRoot", root);
   if (!slot) return () => {};
-  slot.innerHTML = "";
 
-  const heading = Heading(2, "Welcome back to Fare");
-  heading.classList.add("m-0");
-
-  const subtitle = Text("Sign in with your username and password.");
-  subtitle.classList.add("text-sm");
-  subtitle.style.setProperty("color", "var(--muted)");
-  subtitle.style.setProperty("margin", "0");
+  slot.html("");
 
   const usernameField = FormField({
     label: "Username",
-    placeholder: "your.username",
+    placeholder: "you@fare.app",
+    helperText: "Use your project email or handle",
   });
   const passwordField = FormField({
     label: "Password",
-    placeholder: "your.password",
+    placeholder: "••••••••",
     type: "password",
+    helperText: "Minimum 8 characters",
   });
 
-  const status = HelperText("Use the form to continue.", "hint");
-  status.style.setProperty("margin", "0");
+  const status = HelperText("Enter credentials and submit.", "hint");
+  status.setAttribute("aria-live", "polite");
 
   const submit = Button({ text: "Sign in", variant: "primary" });
   submit.type = "submit";
-  submit.classList.add("w-full");
 
   const form = document.createElement("form");
-  form.classList.add("flex", "flex-col", "gap-3");
+  form.classList.add("login-form");
   form.setAttribute("novalidate", "true");
-  form.appendChild(heading);
-  form.appendChild(subtitle);
-  form.appendChild(usernameField.root);
-  form.appendChild(passwordField.root);
-  form.appendChild(status);
-  form.appendChild(submit);
+  form.append(
+    usernameField.root,
+    passwordField.root,
+    submit,
+    status
+  );
 
-  const card = document.createElement("article");
-  card.classList.add("flex", "flex-col", "gap-4", "w-full");
-  card.style.setProperty("padding", "var(--s-5)");
-  card.style.setProperty("border-radius", "var(--r-2xl)");
-  card.style.setProperty("background", "rgba(255,255,255,.04)");
-  card.style.setProperty("border", "1px solid var(--border)");
-  card.style.setProperty("box-shadow", "var(--sh-md)");
-  card.appendChild(form);
-
-  slot.appendChild(card);
+  slot.append(form);
 
   const handleSubmit = (event: Event) => {
     event.preventDefault();
-    const username = usernameField.input.value.trim();
-    const password = passwordField.input.value;
-    if (!username || !password) {
+    const hasUsername = usernameField.input.value.trim().length > 0;
+    const hasPassword = passwordField.input.value.length > 0;
+
+    usernameField.setError(hasUsername ? undefined : "Username is required");
+    passwordField.setError(hasPassword ? undefined : "Password is required");
+
+    if (!hasUsername || !hasPassword) {
       status.dataset.state = "error";
-      status.textContent = "Both username and password are required.";
+      status.textContent = "Please fill both fields.";
       return;
     }
+
     status.dataset.state = "hint";
-    status.textContent = `Welcome back, ${username}!`;
+    status.textContent = `Welcome back, ${usernameField.input.value.trim()}!`;
   };
 
   form.addEventListener("submit", handleSubmit);
