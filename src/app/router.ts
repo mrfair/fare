@@ -1,5 +1,9 @@
-import { $ } from "./dom.ts";
-import { getSession, isAuthed, getRoles, SessionMirror } from "./auth.ts";import { createApi, type FareApi } from "./api/index.ts";
+import { $ } from "./dom";
+import { getSession, isAuthed, getRoles, SessionMirror } from "./auth";
+import { createApi } from "./api/index";
+import type { FareApi } from "./api/index";
+import { ctxDb } from "./ctx-db";
+import type { CtxDb } from "./db/index";
 
 type Params = Record<string, string>;
 type NavigateOptions = { replace?: boolean; state?: unknown };
@@ -46,6 +50,7 @@ interface RouterBaseContext {
   navigate: RouterNavigate;
   setState: RouterSetState;
   prefetch: RouterPrefetch;
+  db: CtxDb;
 }
 
 interface RouterGuardContext extends RouterBaseContext {
@@ -99,8 +104,8 @@ function routePathFromFileKey(key: string): string | null {
   const routeTail = key.slice(idx + marker.length);
   const suffix = routeTail.endsWith("/index.js")
     ? "/index.js"
-    : routeTail.endsWith("/index.ts")
-      ? "/index.ts"
+    : routeTail.endsWith("/index")
+      ? "/index"
       : null;
   if (!suffix) return null;
 
@@ -220,11 +225,11 @@ export function createRouter({ appEl = "#app" } = {}): RouterInstance {
   }
 
   function makeCtxBase(url: URL): RouterBaseContext {
-  const api = createApi({
-    fetch: window.fetch.bind(window),
-    basePath: "/api",
-    getToken: () => localStorage.getItem("token"),
-  });
+    const api = createApi({
+      fetch: window.fetch.bind(window),
+      basePath: "/api",
+      getToken: () => localStorage.getItem("token"),
+    });
 
     return {
       path: url.pathname,
@@ -237,7 +242,8 @@ export function createRouter({ appEl = "#app" } = {}): RouterInstance {
       navigate,
       setState,
       prefetch,
-      api
+      api,
+      db: ctxDb,
     };
   }
 
@@ -270,7 +276,7 @@ export function createRouter({ appEl = "#app" } = {}): RouterInstance {
 
     if (!target) {
       cleanupAll();
-      app.innerHTML = `<div style="padding:16px; font-family: system-ui;">Error ${status}</div>`;
+      app.html(`<div style="padding:16px; font-family: system-ui;">Error ${status}</div>`);
       return;
     }
 
