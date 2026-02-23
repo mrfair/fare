@@ -1,6 +1,7 @@
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface PermissionRequestBlockOptions {
+export interface PermissionRequestBlockOptions extends WithClassAttribute {
   title: string;
   description?: string;
   onGrant?: () => void;
@@ -11,6 +12,7 @@ export function PermissionRequestBlock(options: PermissionRequestBlockOptions): 
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-3", "p-4", "border", "rounded-2xl");
   root.style.setProperty("border-color", "var(--border)");
+  applyClassAttribute(root, options.class);
 
   const title = document.createElement("strong");
   title.textContent = options.title;

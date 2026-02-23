@@ -1,6 +1,7 @@
 import { Input } from "../Atoms/Input";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface OTPInputOptions {
+export interface OTPInputOptions extends WithClassAttribute {
   length?: number;
   separator?: string;
 }
@@ -16,6 +17,7 @@ export function OTPInput(options: OTPInputOptions = {}): OTPInputResult {
   const length = options.length || 4;
   const container = document.createElement("div");
   container.classList.add("input-group");
+  applyClassAttribute(container, options.class);
 
   const inputs: HTMLInputElement[] = [];
   for (let i = 0; i < length; i += 1) {

@@ -1,4 +1,5 @@
 import { Heading } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface CarouselRowItem {
   title: string;
@@ -6,7 +7,7 @@ export interface CarouselRowItem {
   caption?: string;
 }
 
-export interface CarouselRowOptions {
+export interface CarouselRowOptions extends WithClassAttribute {
   items: CarouselRowItem[];
   title?: string;
 }
@@ -14,6 +15,7 @@ export interface CarouselRowOptions {
 export function CarouselRow(options: CarouselRowOptions): HTMLDivElement {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-3");
+  applyClassAttribute(root, options.class);
 
   if (options.title) {
     const heading = Heading(4, options.title);

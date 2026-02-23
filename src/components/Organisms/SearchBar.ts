@@ -1,8 +1,9 @@
 import { Button } from "../Atoms/Button";
 import { Spinner } from "../Atoms/Spinner";
 import { SearchField, SearchFieldResult } from "../Molecules/SearchField";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface SearchBarOptions {
+export interface SearchBarOptions extends WithClassAttribute {
   placeholder?: string;
   includeFilterToggle?: boolean;
   filterLabel?: string;
@@ -21,6 +22,7 @@ export interface SearchBarResult {
 export function SearchBar(options: SearchBarOptions = {}): SearchBarResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-3");
+  applyClassAttribute(root, options.class);
 
   const searchField = SearchField({
     placeholder: options.placeholder,

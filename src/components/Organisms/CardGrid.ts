@@ -1,5 +1,6 @@
 import { Button } from "../Atoms/Button";
 import { Heading } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface CardGridCard {
   title: string;
@@ -9,7 +10,7 @@ export interface CardGridCard {
   onAction?: () => void;
 }
 
-export interface CardGridOptions {
+export interface CardGridOptions extends WithClassAttribute {
   cards: CardGridCard[];
 }
 
@@ -17,6 +18,7 @@ export function CardGrid(options: CardGridOptions): HTMLDivElement {
   const grid = document.createElement("div");
   grid.classList.add("grid", "gap-4");
   grid.style.setProperty("grid-template-columns", "repeat(auto-fit, minmax(220px, 1fr))");
+  applyClassAttribute(grid, options.class);
 
   options.cards.forEach((cardData) => {
     const card = document.createElement("article");

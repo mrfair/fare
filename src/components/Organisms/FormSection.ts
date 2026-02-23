@@ -1,6 +1,7 @@
 import { Heading } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface FormSectionOptions {
+export interface FormSectionOptions extends WithClassAttribute {
   title?: string;
   description?: string;
   children?: HTMLElement[];
@@ -9,6 +10,7 @@ export interface FormSectionOptions {
 export function FormSection(options: FormSectionOptions): HTMLDivElement {
   const root = document.createElement("section");
   root.classList.add("flex", "flex-col", "gap-3", "w-full");
+  applyClassAttribute(root, options.class);
 
   if (options.title) {
     const heading = Heading(3, options.title);

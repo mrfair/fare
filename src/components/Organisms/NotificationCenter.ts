@@ -1,5 +1,6 @@
 import { ListItem } from "../Molecules/ListItem";
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface NotificationItem {
   title: string;
@@ -12,11 +13,15 @@ export interface NotificationCenterResult {
   add(notification: NotificationItem): void;
 }
 
-export function NotificationCenter(notifications: NotificationItem[] = []): NotificationCenterResult {
+export function NotificationCenter(
+  notifications: NotificationItem[] = [],
+  options: WithClassAttribute = {}
+): NotificationCenterResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-2", "p-3", "rounded-2xl", "border");
   root.style.setProperty("border-color", "var(--border)");
   root.style.setProperty("background", "rgba(255,255,255,.03)");
+  applyClassAttribute(root, options.class);
 
   const header = document.createElement("div");
   header.classList.add("flex", "justify-between", "items-center");

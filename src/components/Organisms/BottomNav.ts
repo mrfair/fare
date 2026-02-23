@@ -1,6 +1,11 @@
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export function BottomNav(labels: string[], onSelect?: (label: string) => void): HTMLDivElement {
+export function BottomNav(
+  labels: string[],
+  onSelect?: (label: string) => void,
+  options: WithClassAttribute = {}
+): HTMLDivElement {
   const nav = document.createElement("div");
   nav.classList.add("flex", "justify-around", "items-center", "gap-4");
   nav.style.setProperty("position", "fixed");
@@ -11,6 +16,7 @@ export function BottomNav(labels: string[], onSelect?: (label: string) => void):
   nav.style.setProperty("border-top", "1px solid var(--border)");
   nav.style.setProperty("z-index", "10");
   nav.style.setProperty("padding", "var(--s-2) 0");
+  applyClassAttribute(nav, options.class);
 
   const buttons: HTMLButtonElement[] = [];
   const setActive = (selectedIdx: number) => {

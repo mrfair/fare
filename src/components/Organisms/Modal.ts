@@ -1,7 +1,8 @@
 import { Button } from "../Atoms/Button";
 import { Heading } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface ModalOptions {
+export interface ModalOptions extends WithClassAttribute {
   title?: string;
   content: HTMLElement | string;
   onClose?: () => void;
@@ -17,6 +18,7 @@ export function Modal(options: ModalOptions): ModalResult {
   const overlay = document.createElement("div");
   overlay.classList.add("fixed", "inset-0", "bg-[rgba(0,0,0,.6)]", "flex", "items-center", "justify-center", "p-4");
   overlay.style.setProperty("z-index", "30");
+  applyClassAttribute(overlay, options.class);
 
   const dialog = document.createElement("div");
   dialog.classList.add("bg-[var(--card)]", "rounded-2xl", "p-5", "flex", "flex-col", "gap-3", "max-w-lg", "w-full");

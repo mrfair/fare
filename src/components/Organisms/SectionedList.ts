@@ -1,14 +1,19 @@
 import { ListItem } from "../Molecules/ListItem";
 import { Heading } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface SectionedListSection {
   title: string;
   items: { title: string; subtitle?: string }[];
 }
 
-export function SectionedList(sections: SectionedListSection[]): HTMLDivElement {
+export function SectionedList(
+  sections: SectionedListSection[],
+  options: WithClassAttribute = {}
+): HTMLDivElement {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-4");
+  applyClassAttribute(root, options.class);
 
   sections.forEach((section) => {
     const header = Heading(3, section.title);

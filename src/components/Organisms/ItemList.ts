@@ -1,5 +1,6 @@
 import { EmptyStateBlock } from "../Molecules/EmptyStateBlock";
 import { ListItem, ListItemResult } from "../Molecules/ListItem";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 import { Skeleton } from "../Atoms/Skeleton";
 
 export interface ItemListItem {
@@ -9,7 +10,7 @@ export interface ItemListItem {
   trailing?: string | HTMLElement;
 }
 
-export interface ItemListOptions {
+export interface ItemListOptions extends WithClassAttribute {
   items?: ItemListItem[];
   loading?: boolean;
   emptyState?: {
@@ -27,6 +28,7 @@ export interface ItemListResult {
 export function ItemList(options: ItemListOptions = {}): ItemListResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-2", "w-full");
+  applyClassAttribute(root, options.class);
 
   const list = document.createElement("div");
   list.classList.add("flex", "flex-col", "gap-2");

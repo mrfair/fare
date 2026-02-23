@@ -1,7 +1,8 @@
 import { Button } from "../Atoms/Button";
 import { OTPInput } from "../Molecules/OTPInput";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface VerificationBlockOptions {
+export interface VerificationBlockOptions extends WithClassAttribute {
   length?: number;
   onSubmit?: (value: string) => void;
   onResend?: () => void;
@@ -14,6 +15,7 @@ export interface VerificationBlockResult {
 export function VerificationBlock(options: VerificationBlockOptions): VerificationBlockResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-3");
+  applyClassAttribute(root, options.class);
 
   const otp = OTPInput({ length: options.length });
   const submit = Button({ text: "Verify", variant: "primary" });

@@ -1,12 +1,13 @@
 import { Chip } from "../Molecules/Chip";
 import { Input } from "../Atoms/Input";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface MultiSelectOption {
   label: string;
   value: string;
 }
 
-export interface MultiSelectOptions {
+export interface MultiSelectOptions extends WithClassAttribute {
   choices: MultiSelectOption[];
   selected?: string[];
   placeholder?: string;
@@ -22,6 +23,7 @@ export interface MultiSelectResult {
 export function MultiSelect(options: MultiSelectOptions): MultiSelectResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-2");
+  applyClassAttribute(root, options.class);
 
   const selectedRow = document.createElement("div");
   selectedRow.classList.add("flex", "flex-wrap", "gap-2");

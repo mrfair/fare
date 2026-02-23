@@ -1,8 +1,9 @@
 import { Icon } from "../Atoms/Icon";
 import { Button } from "../Atoms/Button";
 import { Text } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface EmptyStateBlockOptions {
+export interface EmptyStateBlockOptions extends WithClassAttribute {
   icon?: string;
   title: string;
   message?: string;
@@ -18,9 +19,10 @@ export interface EmptyStateBlockResult {
 export function EmptyStateBlock(options: EmptyStateBlockOptions): EmptyStateBlockResult {
   const root = document.createElement("div");
   root.classList.add("list-item", "gap-3");
+  applyClassAttribute(root, options.class);
 
   if (options.icon) {
-    const icon = Icon(options.icon);
+    const icon = Icon({ content: options.icon });
     root.appendChild(icon);
   }
 

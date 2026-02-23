@@ -1,7 +1,8 @@
 import { Text } from "../Atoms/Text";
 import { Icon } from "../Atoms/Icon";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface OptionRowOptions {
+export interface OptionRowOptions extends WithClassAttribute {
   label: string;
   description?: string;
   icon?: string | HTMLElement;
@@ -16,17 +17,19 @@ export interface OptionRowResult {
 export function OptionRow(options: OptionRowOptions): OptionRowResult {
   const el = document.createElement("div");
   el.classList.add("list-item", "gap-2");
+  applyClassAttribute(el, options.class);
   if (options.selected) {
     el.dataset.state = "selected";
     el.style.backgroundColor = "rgba(124,92,255,.08)";
   }
 
   if (options.icon) {
-    const iconWrap = Icon(typeof options.icon === "string" ? options.icon : "★");
-    if (options.icon instanceof HTMLElement) {
-      iconWrap.replaceWith(options.icon);
+    if (typeof options.icon === "string") {
+      const iconWrap = Icon({ content: options.icon });
+      el.appendChild(iconWrap);
+    } else {
+      el.appendChild(options.icon);
     }
-    el.appendChild(iconWrap);
   }
 
   el.appendChild(Text(options.label));

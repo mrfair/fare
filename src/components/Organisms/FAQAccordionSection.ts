@@ -1,13 +1,18 @@
 import { Text } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface FAQItem {
   question: string;
   answer: string;
 }
 
-export function FAQAccordionSection(items: FAQItem[]): HTMLSectionElement {
+export function FAQAccordionSection(
+  items: FAQItem[],
+  options: WithClassAttribute = {}
+): HTMLSectionElement {
   const section = document.createElement("section");
   section.classList.add("flex", "flex-col", "gap-3");
+  applyClassAttribute(section, options.class);
 
   items.forEach((item) => {
     const container = document.createElement("div");

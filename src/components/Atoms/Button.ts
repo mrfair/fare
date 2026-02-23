@@ -1,10 +1,14 @@
 import { Icon } from "./Icon";
 import { Spinner } from "./Spinner";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export type ButtonVariant = "primary" | "secondary" | "ghost";
 
-export interface ButtonOptions {
+export type ButtonType = "button" | "submit" | "reset";
+
+export interface ButtonOptions extends WithClassAttribute {
   text?: string;
+  type?: ButtonType;
   variant?: ButtonVariant;
   loading?: boolean;
   disabled?: boolean;
@@ -12,9 +16,9 @@ export interface ButtonOptions {
 }
 
 export function Button(options: ButtonOptions = {}): HTMLButtonElement {
-  const { variant = "primary", loading = false, disabled = false } = options;
+  const { variant = "primary", loading = false, disabled = false, class: classAttr, type = "button" } = options;
   const btn = document.createElement("button");
-  btn.type = "button";
+  btn.type = type;
 
   btn.classList.add(
     "btn",
@@ -48,7 +52,7 @@ export function Button(options: ButtonOptions = {}): HTMLButtonElement {
 
   if (options.icon) {
     const iconNode =
-      typeof options.icon === "string" ? Icon(options.icon) : options.icon;
+      typeof options.icon === "string" ? Icon({ content: options.icon }) : options.icon;
     fragments.push(iconNode);
   }
 
@@ -59,6 +63,8 @@ export function Button(options: ButtonOptions = {}): HTMLButtonElement {
   }
 
   fragments.forEach((node) => btn.appendChild(node));
+
+  applyClassAttribute(btn, classAttr);
 
   return btn;
 }

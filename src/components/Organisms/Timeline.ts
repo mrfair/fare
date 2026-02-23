@@ -4,13 +4,16 @@ export interface TimelineEvent {
   description?: string;
 }
 
-export interface TimelineOptions {
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface TimelineOptions extends WithClassAttribute {
   events: TimelineEvent[];
 }
 
 export function Timeline(options: TimelineOptions): HTMLDivElement {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-4");
+  applyClassAttribute(root, options.class);
 
   options.events.forEach((event) => {
     const row = document.createElement("div");

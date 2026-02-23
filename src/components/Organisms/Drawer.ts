@@ -1,7 +1,8 @@
 import { Button } from "../Atoms/Button";
 import { Heading } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface DrawerOptions {
+export interface DrawerOptions extends WithClassAttribute {
   title?: string;
   content: HTMLElement | string;
   position?: "left" | "right" | "bottom";
@@ -19,6 +20,7 @@ export function Drawer(options: DrawerOptions): DrawerResult {
   overlay.classList.add("fixed", "inset-0", "bg-[rgba(0,0,0,.4)]", "flex");
   overlay.style.setProperty("z-index", "25");
   overlay.style.setProperty("display", "none");
+  applyClassAttribute(overlay, options.class);
 
   const drawer = document.createElement("div");
   drawer.classList.add("bg-[var(--card)]", "rounded-2xl", "p-5", "flex", "flex-col", "gap-3");

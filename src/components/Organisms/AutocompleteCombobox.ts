@@ -1,7 +1,8 @@
 import { Input } from "../Atoms/Input";
 import { Icon } from "../Atoms/Icon";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface AutocompleteComboboxOptions {
+export interface AutocompleteComboboxOptions extends WithClassAttribute {
   placeholder?: string;
   suggestions?: string[];
   onSelect?: (value: string) => void;
@@ -19,8 +20,9 @@ export function AutocompleteCombobox(
 ): AutocompleteComboboxResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-1", "w-full", "relative");
+  applyClassAttribute(root, options.class);
 
-  const icon = Icon("⌄");
+  const icon = Icon({ content: "⌄" });
   icon.classList.add("absolute", "right-3", "top-1/2");
   icon.style.setProperty("transform", "translateY(-50%)");
   icon.style.setProperty("pointer-events", "none");

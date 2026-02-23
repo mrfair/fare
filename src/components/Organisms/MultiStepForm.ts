@@ -1,12 +1,13 @@
 import { Button } from "../Atoms/Button";
 import { Stepper, StepperOptions } from "./Stepper";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface MultiStepFormStep {
   title: string;
   content: () => HTMLElement;
 }
 
-export interface MultiStepFormOptions {
+export interface MultiStepFormOptions extends WithClassAttribute {
   steps: MultiStepFormStep[];
   onComplete?: () => void;
 }
@@ -19,6 +20,7 @@ export interface MultiStepFormResult {
 export function MultiStepForm(options: MultiStepFormOptions): MultiStepFormResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-4", "w-full");
+  applyClassAttribute(root, options.class);
 
   let currentIndex = 0;
 

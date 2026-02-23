@@ -1,7 +1,12 @@
-export function Text(text: string): HTMLSpanElement {
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface TextOptions extends WithClassAttribute {}
+
+export function Text(text: string, options: TextOptions = {}): HTMLSpanElement {
   const span = document.createElement("span");
   span.classList.add("text-base", "leading-normal");
   span.textContent = text;
+  applyClassAttribute(span, options.class);
   return span;
 }
 
@@ -16,9 +21,14 @@ const HEADING_CLASSES: Record<HeadingLevel, string[]> = {
   6: ["text-sm",  "font-medium",   "leading-normal"],
 };
 
-export function Heading(level: HeadingLevel, text: string): HTMLHeadingElement {
+export function Heading(
+  level: HeadingLevel,
+  text: string,
+  options: WithClassAttribute = {}
+): HTMLHeadingElement {
   const heading = document.createElement(`h${level}` as "h1");
   heading.classList.add(...HEADING_CLASSES[level]);
   heading.textContent = text;
+  applyClassAttribute(heading, options.class);
   return heading;
 }

@@ -1,6 +1,7 @@
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface UploaderOptions {
+export interface UploaderOptions extends WithClassAttribute {
   label?: string;
   accept?: string;
   multiple?: boolean;
@@ -14,6 +15,7 @@ export interface UploaderResult {
 export function Uploader(options: UploaderOptions): UploaderResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-2");
+  applyClassAttribute(root, options.class);
 
   const input = document.createElement("input");
   input.type = "file";

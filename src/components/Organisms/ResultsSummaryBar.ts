@@ -1,4 +1,6 @@
-export interface ResultsSummaryBarOptions {
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface ResultsSummaryBarOptions extends WithClassAttribute {
   total?: number;
   filters?: string[];
 }
@@ -12,6 +14,7 @@ export interface ResultsSummaryBarResult {
 export function ResultsSummaryBar(options: ResultsSummaryBarOptions = {}): ResultsSummaryBarResult {
   const root = document.createElement("div");
   root.classList.add("flex", "items-center", "justify-between", "gap-3", "flex-wrap");
+  applyClassAttribute(root, options.class);
 
   const total = document.createElement("span");
   total.classList.add("font-semibold");

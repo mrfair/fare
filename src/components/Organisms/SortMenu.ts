@@ -1,6 +1,7 @@
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface SortMenuOptions {
+export interface SortMenuOptions extends WithClassAttribute {
   label?: string;
   options: string[];
   onSelect?: (value: string) => void;
@@ -15,6 +16,7 @@ export interface SortMenuResult {
 export function SortMenu(options: SortMenuOptions): SortMenuResult {
   const root = document.createElement("div");
   root.classList.add("relative", "w-full");
+  applyClassAttribute(root, options.class);
 
   const trigger = Button({ text: options.label || "Sort", variant: "ghost" });
   trigger.classList.add("w-full");

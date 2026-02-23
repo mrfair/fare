@@ -1,4 +1,6 @@
-export interface BadgeOptions {
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface BadgeOptions extends WithClassAttribute {
   content: string;
   tone?: "neutral" | "success" | "warn" | "error" | "info";
 }
@@ -10,5 +12,6 @@ export function Badge(options: BadgeOptions): HTMLSpanElement {
   if (options.tone && options.tone !== "neutral") {
     badge.dataset.tone = options.tone;
   }
+  applyClassAttribute(badge, options.class);
   return badge;
 }

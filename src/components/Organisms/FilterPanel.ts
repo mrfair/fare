@@ -1,11 +1,12 @@
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface FilterPanelFacet {
   title: string;
   options: string[];
 }
 
-export interface FilterPanelOptions {
+export interface FilterPanelOptions extends WithClassAttribute {
   facets: FilterPanelFacet[];
   onApply?: (selections: Record<string, string[]>) => void;
   onReset?: () => void;
@@ -20,6 +21,7 @@ export interface FilterPanelResult {
 export function FilterPanel(options: FilterPanelOptions): FilterPanelResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-4", "w-full");
+  applyClassAttribute(root, options.class);
 
   const selections: Record<string, Set<string>> = {};
 

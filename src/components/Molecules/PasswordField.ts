@@ -1,6 +1,10 @@
 import { Input } from "../Atoms/Input";
-import { Icon } from "../Atoms/Icon";
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface PasswordFieldOptions extends WithClassAttribute {
+  placeholder?: string;
+}
 
 export interface PasswordFieldResult {
   root: HTMLDivElement;
@@ -8,9 +12,11 @@ export interface PasswordFieldResult {
   toggle: HTMLButtonElement;
 }
 
-export function PasswordField(placeholder = "Password"): PasswordFieldResult {
+export function PasswordField(options: PasswordFieldOptions = {}): PasswordFieldResult {
+  const placeholder = options.placeholder ?? "Password";
   const root = document.createElement("div");
   root.classList.add("input-group");
+  applyClassAttribute(root, options.class);
 
   const input = Input({ type: "password", placeholder });
   root.appendChild(input);

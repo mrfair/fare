@@ -1,7 +1,8 @@
 import { Button } from "../Atoms/Button";
 import { Heading } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface HeroSectionOptions {
+export interface HeroSectionOptions extends WithClassAttribute {
   title: string;
   subtitle?: string;
   ctaLabel?: string;
@@ -14,6 +15,7 @@ export function HeroSection(options: HeroSectionOptions): HTMLSectionElement {
   section.style.setProperty("background", "rgba(255,255,255,.02)");
   section.style.setProperty("border-radius", "var(--r-xl)");
   section.style.setProperty("border", "1px solid var(--border)");
+  applyClassAttribute(section, options.class);
 
   const title = Heading(1, options.title);
   section.appendChild(title);

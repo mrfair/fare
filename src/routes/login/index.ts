@@ -30,7 +30,10 @@ export function mount({ root }: LoginContext) {
     helperText: "Minimum 8 characters",
   });
 
-  const status = HelperText("Enter credentials and submit.", "hint");
+  const status = HelperText({
+    text: "Enter credentials and submit.",
+    variant: "hint",
+  });
   status.setAttribute("aria-live", "polite");
 
   const submit = Button({ text: "Sign in", variant: "primary" });

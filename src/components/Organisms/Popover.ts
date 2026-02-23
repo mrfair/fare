@@ -1,4 +1,6 @@
-export interface PopoverOptions {
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface PopoverOptions extends WithClassAttribute {
   trigger: HTMLElement;
   content: HTMLElement | string;
   position?: "top" | "bottom" | "left" | "right";
@@ -16,6 +18,7 @@ export function Popover(options: PopoverOptions): PopoverResult {
   popover.style.setProperty("border", "1px solid var(--border)");
   popover.style.setProperty("display", "none");
   popover.style.setProperty("z-index", "15");
+  applyClassAttribute(popover, options.class);
 
   if (typeof options.content === "string") {
     popover.textContent = options.content;

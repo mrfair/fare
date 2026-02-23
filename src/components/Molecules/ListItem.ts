@@ -1,6 +1,7 @@
 import { Text } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface ListItemOptions {
+export interface ListItemOptions extends WithClassAttribute {
   title: string;
   subtitle?: string;
   leading?: string | HTMLElement;
@@ -16,6 +17,7 @@ export interface ListItemResult {
 export function ListItem(options: ListItemOptions): ListItemResult {
   const el = document.createElement("div");
   el.classList.add("list-item");
+  applyClassAttribute(el, options.class);
 
   if (options.leading) {
     const leading = document.createElement("div");

@@ -3,13 +3,16 @@ export interface StepperStep {
   status?: "complete" | "current" | "upcoming";
 }
 
-export interface StepperOptions {
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface StepperOptions extends WithClassAttribute {
   steps: StepperStep[];
 }
 
 export function Stepper(options: StepperOptions): HTMLDivElement {
   const root = document.createElement("div");
   root.classList.add("flex", "items-center", "gap-3", "flex-wrap");
+  applyClassAttribute(root, options.class);
 
   options.steps.forEach((step, index) => {
     const badge = document.createElement("span");

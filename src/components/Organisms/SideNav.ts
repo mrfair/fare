@@ -1,6 +1,7 @@
 import { Link } from "../Atoms/Link";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface SideNavOptions {
+export interface SideNavOptions extends WithClassAttribute {
   items: Array<{ label: string; href: string; active?: boolean }>;
 }
 
@@ -12,6 +13,7 @@ export function SideNav(options: SideNavOptions): HTMLDivElement {
   nav.style.setProperty("border-right", "1px solid var(--border)");
   nav.style.setProperty("padding", "var(--s-4)");
   nav.style.setProperty("min-height", "100vh");
+  applyClassAttribute(nav, options.class);
   options.items.forEach((item) => {
     const link = Link(item.href, item.label);
     link.classList.add("text-sm", "font-medium");

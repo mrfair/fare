@@ -2,8 +2,9 @@ import { Button } from "../Atoms/Button";
 import { Link } from "../Atoms/Link";
 import { Avatar } from "../Atoms/Avatar";
 import { Heading } from "../Atoms/Text";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface AppHeaderOptions {
+export interface AppHeaderOptions extends WithClassAttribute {
   title: string;
   links?: { label: string; href: string }[];
   onLogin?: () => void;
@@ -12,6 +13,7 @@ export interface AppHeaderOptions {
 export function AppHeader(options: AppHeaderOptions): HTMLDivElement {
   const header = document.createElement("header");
   header.classList.add("flex", "items-center", "justify-between", "gap-4", "p-4");
+  applyClassAttribute(header, options.class);
 
   header.style.maxWidth = "100%";
 

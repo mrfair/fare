@@ -1,6 +1,7 @@
 import { Input } from "../Atoms/Input";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface InputGroupOptions {
+export interface InputGroupOptions extends WithClassAttribute {
   prefix?: string;
   suffix?: string;
   placeholder?: string;
@@ -14,6 +15,7 @@ export interface InputGroupResult {
 export function InputGroup(options: InputGroupOptions = {}): InputGroupResult {
   const root = document.createElement("div");
   root.classList.add("input-group");
+  applyClassAttribute(root, options.class);
 
   if (options.prefix) {
     const prefix = document.createElement("span");

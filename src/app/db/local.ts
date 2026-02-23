@@ -4,13 +4,13 @@
 // Install:
 //   npm i wa-sqlite
 //
-// This uses wa-sqlite async build + IDBBatchAtomicVFS (IndexedDB, atomic batches).
+// This uses wa-sqlite async build + IDBVersionedVFS (IndexedDB, rollback-journal aware).
 // You can swap VFS later (OPFS, etc).
 
 import SQLiteAsyncESMFactory from "wa-sqlite/dist/wa-sqlite-async.mjs";
 import wasmUrl from "wa-sqlite/dist/wa-sqlite-async.wasm?url";
 import * as SQLite from "wa-sqlite";
-import { IDBBatchAtomicVFS } from "wa-sqlite/src/examples/IDBBatchAtomicVFS.js";
+import { IDBVersionedVFS } from "wa-sqlite/src/examples/IDBVersionedVFS.js";
 
 import type { DbExec, SqlParams } from "./types";
 
@@ -51,12 +51,20 @@ async function execAll(sqlite3: SQLiteApi, db: number, sql: string, params?: Sql
   const binding = toBinding(params);
 
   for await (const stmt of sqlite3.statements(db, sql)) {
-    if (binding) sqlite3.bind_collection(stmt, binding);
+    try {
+      if (binding) sqlite3.bind_collection(stmt, binding);
 
-    const columns = sqlite3.column_names(stmt);
-    while ((await sqlite3.step(stmt)) === SQLite.SQLITE_ROW) {
-      const row = sqlite3.row(stmt) as any[];
-      results.push(rowToObject(row, columns));
+      const columns = sqlite3.column_names(stmt);
+      while ((await sqlite3.step(stmt)) === SQLite.SQLITE_ROW) {
+        const row = sqlite3.row(stmt) as any[];
+        results.push(rowToObject(row, columns));
+      }
+    } finally {
+      try {
+        await sqlite3.finalize(stmt);
+      } catch {
+        // ignore double-finalize (some drivers already finalize)
+      }
     }
   }
   return results;
@@ -66,20 +74,38 @@ async function execRun(sqlite3: SQLiteApi, db: number, sql: string, params?: Sql
   const binding = toBinding(params);
 
   for await (const stmt of sqlite3.statements(db, sql)) {
-    if (binding) sqlite3.bind_collection(stmt, binding);
-    while ((await sqlite3.step(stmt)) === SQLite.SQLITE_ROW) {
-      // ignore rows
+    try {
+      if (binding) sqlite3.bind_collection(stmt, binding);
+      while ((await sqlite3.step(stmt)) === SQLite.SQLITE_ROW) {
+        // ignore rows
+      }
+    } finally {
+      try {
+        await sqlite3.finalize(stmt);
+      } catch {
+        // ignore double-finalize (some drivers already finalize)
+      }
     }
   }
   return { changes: sqlite3.changes(db) };
 }
 
+function createSerialRunner() {
+  let chain: Promise<void> = Promise.resolve();
+  return async function runSerialized<T>(fn: () => Promise<T>): Promise<T> {
+    const work = chain.then(fn, fn);
+    chain = work.then(() => undefined, () => undefined);
+    return work;
+  };
+}
+
 export async function openLocalDb(name = "fare"): Promise<DbExec> {
   const sqlite3 = await getSqlite3();
 
-  const vfsName = `${name}-idb`;
+  // Bump VFS name format so old/corrupted IndexedDB layouts do not poison startup.
+  const vfsName = `${name}-idb-v2`;
   if (!_vfsRegistered.has(vfsName)) {
-    sqlite3.vfs_register(new IDBBatchAtomicVFS(vfsName, { durability: "relaxed" }));
+    sqlite3.vfs_register(new IDBVersionedVFS(vfsName, { durability: "relaxed" }));
     _vfsRegistered.add(vfsName);
   }
 
@@ -90,13 +116,25 @@ export async function openLocalDb(name = "fare"): Promise<DbExec> {
     vfsName
   );
 
+  // IDBVersionedVFS is rollback-journal aware; keep delete journal semantics.
+  await sqlite3.exec(db, "PRAGMA journal_mode=DELETE");
+  await sqlite3.exec(db, "PRAGMA synchronous=NORMAL");
+  await sqlite3.exec(db, "PRAGMA temp_store=MEMORY");
+  const runSerialized = createSerialRunner();
+
   return {
-    exec: async (sql: string) => { await sqlite3.exec(db, sql); },
-    all: async <T = any>(sql: string, params?: SqlParams) => (await execAll(sqlite3, db, sql, params)) as T[],
-    get: async <T = any>(sql: string, params?: SqlParams) => {
+    exec: async (sql: string) => runSerialized(async () => {
+      await sqlite3.exec(db, sql);
+    }),
+    all: async <T = any>(sql: string, params?: SqlParams) => runSerialized(async () => {
+      return (await execAll(sqlite3, db, sql, params)) as T[];
+    }),
+    get: async <T = any>(sql: string, params?: SqlParams) => runSerialized(async () => {
       const rows = await execAll(sqlite3, db, sql, params);
       return (rows[0] ?? null) as T | null;
-    },
-    run: async (sql: string, params?: SqlParams) => execRun(sqlite3, db, sql, params),
+    }),
+    run: async (sql: string, params?: SqlParams) => runSerialized(async () => {
+      return execRun(sqlite3, db, sql, params);
+    }),
   };
 }

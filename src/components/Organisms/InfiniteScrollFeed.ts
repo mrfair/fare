@@ -1,4 +1,6 @@
-export interface InfiniteScrollFeedOptions<T> {
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface InfiniteScrollFeedOptions<T> extends WithClassAttribute {
   loadMore: () => Promise<T[]>;
   renderItem: (item: T) => HTMLElement;
   buffer?: number;
@@ -12,6 +14,7 @@ export interface InfiniteScrollFeedResult {
 export function InfiniteScrollFeed<T>(options: InfiniteScrollFeedOptions<T>): InfiniteScrollFeedResult {
   const root = document.createElement("div");
   root.classList.add("flex", "flex-col", "gap-3");
+  applyClassAttribute(root, options.class);
 
   const sentinel = document.createElement("div");
   sentinel.classList.add("h-2");

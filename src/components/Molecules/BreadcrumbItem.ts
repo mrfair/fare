@@ -1,14 +1,14 @@
-export interface BreadcrumbItemOptions {
+import { Link } from "../Atoms/Link";
+import { WithClassAttribute } from "../shared";
+
+export interface BreadcrumbItemOptions extends WithClassAttribute {
   label: string;
   href?: string;
   active?: boolean;
 }
 
-import { Link } from "../Atoms/Link";
-import { Text } from "../Atoms/Text";
-
 export function BreadcrumbItem(options: BreadcrumbItemOptions): HTMLAnchorElement {
-  const anchor = Link(options.href ?? "#", options.label);
+  const anchor = Link(options.href ?? "#", options.label, { class: options.class });
   if (options.active) anchor.classList.add("active");
   return anchor;
 }

@@ -1,13 +1,16 @@
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
 export interface StatsCard {
   label: string;
   value: string;
   trend?: string;
 }
 
-export function StatsCardsRow(cards: StatsCard[]): HTMLDivElement {
+export function StatsCardsRow(cards: StatsCard[], options: WithClassAttribute = {}): HTMLDivElement {
   const root = document.createElement("div");
   root.classList.add("grid", "gap-4");
   root.style.setProperty("grid-template-columns", "repeat(auto-fit, minmax(180px, 1fr))");
+  applyClassAttribute(root, options.class);
 
   cards.forEach((card) => {
     const wrapper = document.createElement("article");

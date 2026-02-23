@@ -23,7 +23,12 @@ export function createCtxDb(opts: CreateCtxDbOptions): CtxDb {
   const clientId = opts.clientId ?? getOrCreateClientId();
 
   async function getDb() {
-    if (!_dbPromise) _dbPromise = openLocalDb(opts.dbName ?? "fare");
+    if (!_dbPromise) {
+      _dbPromise = openLocalDb(opts.dbName ?? "fare").catch((error) => {
+        _dbPromise = null;
+        throw error;
+      });
+    }
     return _dbPromise;
   }
 
@@ -44,7 +49,10 @@ export function createCtxDb(opts: CreateCtxDbOptions): CtxDb {
         "INSERT INTO meta(key,value) VALUES('client_id', ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
         [clientId]
       );
-    })();
+    })().catch((error) => {
+      _ready = null;
+      throw error;
+    });
     return _ready;
   }
 

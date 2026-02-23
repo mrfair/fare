@@ -2,8 +2,9 @@ import { Input, InputOptions } from "../Atoms/Input";
 import { Label } from "../Atoms/Label";
 import { HelperText } from "../Atoms/HelperText";
 import { PasswordField } from "./PasswordField";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface FormFieldOptions {
+export interface FormFieldOptions extends WithClassAttribute {
   label?: string;
   placeholder?: string;
   helperText?: string;
@@ -22,6 +23,7 @@ export interface FormFieldResult {
 export function FormField(options: FormFieldOptions = {}): FormFieldResult {
   const root = document.createElement("div");
   root.classList.add("form-field");
+  applyClassAttribute(root, options.class);
 
   if (options.label) {
     const label = Label(options.label);
@@ -32,7 +34,7 @@ export function FormField(options: FormFieldOptions = {}): FormFieldResult {
   const resolvedType = options.type || options.inputOptions?.type || "text";
   let input: HTMLInputElement;
   if (resolvedType === "password") {
-    const passwordField = PasswordField(options.placeholder ?? "Password");
+    const passwordField = PasswordField({ placeholder: options.placeholder });
     input = passwordField.input;
     root.appendChild(passwordField.root);
   } else {
@@ -44,7 +46,10 @@ export function FormField(options: FormFieldOptions = {}): FormFieldResult {
     root.appendChild(input);
   }
 
-  const helper = HelperText(options.helperText ?? "", options.errorText ? "error" : "hint");
+  const helper = HelperText({
+    text: options.helperText ?? "",
+    variant: options.errorText ? "error" : "hint",
+  });
   root.appendChild(helper);
 
   const setError = (message?: string) => {

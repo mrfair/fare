@@ -1,5 +1,6 @@
 import { ListItem } from "../Molecules/ListItem";
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
 export interface PricingTier {
   name: string;
@@ -8,11 +9,15 @@ export interface PricingTier {
   highlighted?: boolean;
 }
 
-export function PricingTableSection(tiers: PricingTier[]): HTMLSectionElement {
+export function PricingTableSection(
+  tiers: PricingTier[],
+  options: WithClassAttribute = {}
+): HTMLSectionElement {
   const section = document.createElement("section");
   section.classList.add("grid");
   section.style.setProperty("gap", "var(--s-4)");
   section.style.setProperty("grid-template-columns", "repeat(auto-fit, minmax(220px, 1fr))");
+  applyClassAttribute(section, options.class);
 
   tiers.forEach((tier) => {
     const card = document.createElement("div");

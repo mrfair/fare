@@ -1,8 +1,9 @@
 import { Input } from "../Atoms/Input";
 import { Icon } from "../Atoms/Icon";
 import { Button } from "../Atoms/Button";
+import { applyClassAttribute, WithClassAttribute } from "../shared";
 
-export interface SearchFieldOptions {
+export interface SearchFieldOptions extends WithClassAttribute {
   placeholder?: string;
   onSearch?: (value: string) => void;
 }
@@ -16,8 +17,9 @@ export interface SearchFieldResult {
 export function SearchField(options: SearchFieldOptions = {}): SearchFieldResult {
   const el = document.createElement("div");
   el.classList.add("search-field");
+  applyClassAttribute(el, options.class);
 
-  const icon = Icon("🔍");
+  const icon = Icon({ content: "🔍" });
   el.appendChild(icon);
 
   const input = Input({ type: "search", placeholder: options.placeholder });

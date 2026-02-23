@@ -1,11 +1,17 @@
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
 export interface KeyValuePanelItem {
   label: string;
   value: string;
 }
 
-export function KeyValuePanel(items: KeyValuePanelItem[]): HTMLDivElement {
+export function KeyValuePanel(
+  items: KeyValuePanelItem[],
+  options: WithClassAttribute = {}
+): HTMLDivElement {
   const root = document.createElement("div");
   root.classList.add("grid", "grid-cols-2", "gap-3");
+  applyClassAttribute(root, options.class);
 
   items.forEach((item) => {
     const label = document.createElement("span");

@@ -4,7 +4,9 @@ export interface DataTableColumn<T> {
   key: keyof T;
 }
 
-export interface DataTableOptions<T> {
+import { applyClassAttribute, WithClassAttribute } from "../shared";
+
+export interface DataTableOptions<T> extends WithClassAttribute {
   columns: DataTableColumn<T>[];
   rows: T[];
 }
@@ -12,6 +14,7 @@ export interface DataTableOptions<T> {
 export function DataTable<T>(options: DataTableOptions<T>): HTMLDivElement {
   const container = document.createElement("div");
   container.classList.add("overflow-x-auto", "w-full");
+  applyClassAttribute(container, options.class);
 
   const table = document.createElement("table");
   table.classList.add("w-full", "border-collapse");
